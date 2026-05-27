@@ -25,34 +25,8 @@ priority:
   # Configure servers to seed by "ip:port" or with keywords to find from the steam server list
   servers: [
     # top priority if we're actually trying (haven't for a while), otherwise help servers below it
-    { steam_search: brewdawg east, min_players: 3 },
-    # always tries to seed early
-    { steam_search: saucymuffin beer },
-    { steam_search: glow's east },
-    { steam_search: outpost bhb },
-    { steam_search: glow's west },
-    { steam_search: soulsniper },
-    # only seed/join if others are on trying and leave if they leave
-    { steam_search: chad stuart flare, min_players: 8 },
-    { steam_search: rotn rangers, min_players: 8 },
-    { steam_search: brewdawg west, min_players: 3 },
+    { steam_search: UTC, min_players: 0 },
   ]
-
-# Example (keywords search) split by whitespace, server must contain all words.
-# If multiple servers match, ordered by most populated not already queued and must fit seeding criteria
-# Watch for conflicts with {ignore_name_contains} property
-#  {steam_search: foo east}        for example will match: "FOO Server :: US East - blah blah blah"
-#  {steam_search: foo east, min_players: 6}
-#
-# Example (ip:port) with optional name verification
-# Find ip:port from the Steam Server Browser or from BattleMetrics
-# Verify checks the server name contains all words listed split by whitespace
-#  {
-#    about: Saucymuffin,
-#    address: 192.169.95.146:9075,
-#    verify: BEER
-#  }
-
 
 # Max player count before moving to the next server
 # 40 is technically seeded though it's best to stick around to at least 50-60
@@ -67,27 +41,23 @@ server_query_timeout: 15
 query_timeout_limit: 6
 # Check if name is in the player list
 check_idle_kick: false
-player_name: SodiumEnglish
+player_name: CHANGETHIS
 
 
 # When out of servers, search the steam server list for more seeding servers
 # Help out the rest of the community!
 perpetual_mode:
-  enabled: true
+  enabled: false
   # How to pick the servers to queue assuming a list of servers match seeding criteria
   # Options: most_populated, least_populated, random
   choose_method: random
   # How many servers to queue for seeding (ordered from most to least populated)
   # Only applies when priority monitor is disabled otherwise is 1
-  max_servers: 2
+  max_servers: 1
   # Minimum players to consider seeding
-  min_players: 8
+  min_players: 0
   # Do not seed servers with these terms in the name (case-insensitive)
   ignore_name_contains: [
-    cn, violet, # chinese
-    event, training, test, # real servers only
-    hll official, # community servers only
-    fr only, french # will be banned unless you are actually french (they check steam profile country)
   ]
 
 
