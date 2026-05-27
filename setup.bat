@@ -1,8 +1,6 @@
 @echo off
 setlocal enableDelayedExpansion
-
-for /f "delims=" %%x in (config.txt) do (set "%%x")
-set "workDir=%cd%"
+set "workDir=%USERPROFILE%"
 
 REM Removing previous scheduled task instance if it exists.
 REM schtasks /delete /tn "HLL-Seeder" /f >NUL 2>&1
