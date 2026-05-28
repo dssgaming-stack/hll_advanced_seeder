@@ -1,10 +1,2 @@
-.history
-*.zip
-TaskSchedulerTemplate_Local.xml
-
-test.py
-
-.idea/
-__pycache__
-logs/
-screenshots/
+# Auto detect text files and perform LF normalization
+* text=auto
