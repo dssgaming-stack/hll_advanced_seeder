@@ -35,15 +35,12 @@ def launch_steam():
 
 
 def wait_until_steam_running(wait=25):
-    # start = time.time()
     while True:
         if not is_steam_fully_running():
             time.sleep(1)
         else:
             break
-    # print(f"Running - {time.time() - start}s")
     time.sleep(wait)
-    # print(f"Running (+{wait}s) - {time.time() - start}s")
 
 
 def steam_launch_and_wait(wait=25):
@@ -100,31 +97,23 @@ def join_server_addr(server_addr):
     join_server(server_addr[0], server_addr[1])
 
 
-# Checks for game running and EAC splash popup to go away and 15 sec extra
 def wait_until_running(wait=25):
-    # start = time.time()
     while True:
         if __process_exists(launch_exe) or not is_fully_running():
             time.sleep(1)
         else:
             break
-    # print(f"Running - {time.time() - start}s")
     time.sleep(wait)
-    # print(f"Running (+{wait}s) - {time.time() - start}s")
 
 
-# Checks for multiple processes to quit and 15 sec extra
 def wait_until_dead(wait=25):
-    # start = time.time()
     while True:
         if (is_running() or __process_exists(bugreport_exe)
                 or __process_exists(overlay_exe) or __process_exists(crash_window_exe)):
             time.sleep(1)
         else:
             break
-    # print(f"Dead - {time.time() - start}s")
     time.sleep(wait)
-    # print(f"Running (+{wait}s) - {time.time() - start}s")
 
 
 def is_player_present(server_addr, player_name, timeout=3):
