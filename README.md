@@ -1,152 +1,92 @@
-# <img src="readme_icon2.png" width="466" />
+# UTC Clan Seeder
 
-Advanced, customizable, seeding script for Hell Let Loose.
+UTC Clan Seeder is a Hell Let Loose auto-seeding helper adapted from the `hll_advanced_seeder` concept for use with the UTC clan environment.
 
-Makes use of and credit to [KtodaZ](https://github.com/KtodaZ/) for batch scripts and scheduled task XML.
+The tool is intended for members who want their PC to monitor the UTC game server during a chosen period and automatically join when seeding is needed. The seeding configuration is already built into the software, so users do not need to edit server settings or maintain custom config files.
 
-<img src="readme_preview.png" width="700" />
+## What it does
 
-## Features
+- Monitors the UTC game server within a user-selected time window.
+- Automatically joins the server when the configured seeding conditions are met.
+- Uses preloaded UTC-specific seeding settings.
+- Installs required dependencies for installation automatically through PowerShell.
 
-- Schedule a specific time to wake your computer and start the seed script `setup.bat`
-- Seed multiple servers in a specific order
-- Define priority servers by server name keywords or by specific IP
-- Monitors and switches servers once each hits 50 pop
-- Perpetual seeding mode
-    - Searches the steam server list for additional seeding servers once it's done with your priority servers
-    - Checks for servers matching criteria:
-        - 8-50 pop
-        - No password
-        - Name does not contain keywords (HLL Official, Event, Training, CN, FR)
-        - Max players is 100 (a real server, not bob the builder)
-    - Help out the rest of the HLL community!
-- Detects when a server is dying rather than seeding (server pop drops by half) and moves on
-- Detects when you are no longer in the server's player list for whatever reason (usually idle kick) and moves on
-- Detects when the game crashed and relaunches the game to keep seeding
-- Multiple seeding methods
-    - `endtime` Stops and closes the game at the specified time or when done*
-    - `minutes` Stops and closes the game after _N_ minutes or when done*
-    - \* when done with defined list. long seed times more relevant for perpetual mode
-- Closes the game when done seeding
+## Requirements
 
-## Setup and Install
+No manual dependency setup is required for normal use.
 
-1. Install the latest Python 3.x
-    - https://www.python.org/downloads/
-    - On the installer be sure to check `Add Python to PATH`
-2. Install required python packages
-    - Use `requirements_pip_install.bat` as the quickest/easiest option
-    - Alternatively, use command prompt, cd to the project, and run `pip install -r requirements.txt` manually
-3. Open `seeding.yaml` to configure script settings and servers to seed
-    - Most default values should be fine as is though can be tweaked however you want
-    - Most relevant properties you'll probably want to change:
-        - `seeding.method`
-        - `priority.servers`
-        - `priority.monitor_enabled`
-        - `check_idle_kick` and `player_name`
-        - `perpetual_mode.enabled`
-4. Run `setup.bat` to create a scheduled task that will wake up the computer and run the seeding script
+The installer automatically downloads and installs:
 
-To verify a task is scheduled use `verify.bat`.
+- Python (running the tool)
+- Git (keeping the tool up to date)
 
-To uninstall a scheduled task use `uninstall.bat`.
+Users only need:
 
-To manually start the script again use `runGame.bat` (this is what the scheduled task calls).
+- A Windows system with PowerShell available (standard installed on Windows).
+- Hell Let Loose installed.
+- Permission to run the setup and launcher scripts.
+- A stable internet connection while monitoring is active.
 
-## How it works
+## Installation
 
-The python script uses A2S or the Valve Protocol to query game servers
-for their current player count and current player names joined.
+1. Retrieve PowerShell script from UTC-admin.
+2. Open PowerShell in the project folder.
+3. Select the timeframe in which the computer should monitor the UTC server.
+5. Your PC will now monitor the UTC server during that period.
 
-https://developer.valvesoftware.com/wiki/Server_queries
+After installation, no additional configuration should be necessary for standard UTC clan use.
+Done seeding? An uninstaller is provided with the software also.
 
-It also uses the Valve Master Server Query Protocol to search for all current Hell Let Loose servers
-to search for ones that match your priority server criteria or for perpetual mode.
+## Usage
 
-https://developer.valvesoftware.com/wiki/Master_Server_Query_Protocol
+1. Start the tool.
+2. Select the timeframe in which the computer should monitor the UTC server.
+3. Set the desired dates and hours for monitoring.
+4. Leave the tool running during that period.
+5. When the UTC server matches the built-in seeding conditions, the tool will join automatically.
 
-Check out the account running this almost 24/7! 
+This workflow is designed to keep usage simple: choose when monitoring is allowed, then let the tool handle the rest.
 
-[SodiumEnglish](https://steamcommunity.com/profiles/76561199503883512/) with more than 1500 hours of just seeding
+## Configuration
 
-## Q & A
+The UTC seeding configuration is already included.
 
-### Why would I want to help other community servers? (perpetual mode)
+This means users do **not** need to:
 
-Seeding servers can be exhausting and painful! An extra digit is always helpful.
+- Enter server connection details manually.
+- Tune seeding thresholds.
+- Import separate config files.
+- Install Python or Git by hand.
 
-When all your priority servers are seeded or waiting to start seeding, use the idle time otherwise to help out the rest
-of the community.
+If a future version exposes additional options, they should be treated as optional overrides rather than required setup.
 
-The more populated servers there are, the better it is for the longevity of the game.
+## Notes
 
-### Is there any risk running this?
+- The PC must remain powered on and connected during the selected monitoring window. Check your Energy Settings!
+- If your PC is in sleep-mode, it will wake to run Hell Let Loose (if possible).
+- PowerShell may request permission during dependency installation, depending on local system policy.
+- Closing the application stops monitoring immediately.
+- Any game-specific launch requirements still need to be met on the local machine.
 
-It should be very, very, low.
+## Troubleshooting
 
-At worst, a server may ban you for language/country rules.
-For example, this happened to me in perpetual mode for random french servers requiring players to be "FR Only".
-I have since added FR to the perpetual ignore terms.
+### PowerShell blocks the script
 
-<details>
-<summary>The script does not interact with or give an advantage to any form of gameplay.</summary>
-<br>
+Try starting PowerShell as Administrator and review the local execution policy.
 
-> The script can do the following:
-> 
-> - Use the `steam://` protocol to start steam, launch the game, and connect to servers
-> - Use windows commands to check if Steam, HLL, and related processes are running
-> - Use windows commands to kill the game or the crash window
-> - Uses Valve A2S to query realtime server info and players
-> - Uses Valve MSQP to query for all current servers
-> - Saves screenshots locally when the game crashes or to capture server disconnect messages (idle kick, lost connection, ban, etc.)
-> 
-> The script **does not**:
-> 
-> - Interact with the game with mouse clicks, typing, or any kind of input
-> - Provide any kind of gameplay advantage in any way
-> 
-> When the script joins a server, it is still up to you to manually join a side, build garrys, etc. if you choose to.
+### Python or Git installation fails
 
-</details>
+Check internet connectivity, rerun the installer, and confirm that security software is not blocking downloads.
 
+### The tool does not join automatically
 
-## Potential usages
+Confirm that:
 
-### I want to... seed and monitor my priority servers when they start seeding and also help seed other community servers
+- The selected date range is currently active.
+- The chosen monitoring timeframe includes the current time.
+- Hell Let Loose is installed correctly.
+- The tool is still running in the background.
 
-The `seeding.yaml` by default is configured for this behavior.
+## Intended audience
 
-It will go back and forth between priority, higher priority, and random community servers as necessary.
-
-With `priority.monitor_enabled` the script will constantly check your priority servers and
-jump back to them if the player count drops or they start seeding whenever that happens.
-
-### I want to... only seed and monitor my priority servers and nothing else
-
-Disable `perpetual_mode.enabled` and the script will only care about your configured priority servers.
-
-### I want to... run the script 24/7
-
-Using the task schedule start time, configure the `seeding.endtime` to a time shortly before that.
-
-For example:
-
-- `setup.bat` scheduled start of `6:00:00` or 6 AM.
-- `seeding.yaml` scheduled end time of `5:45 am`
-- Assuming priority monitor and/or perpetual mode are enabled, the script will be seeding servers almost endlessly
-
-### I want to... run multiple scripts and accounts
-
-Of course you would need multiple devices and script instances.
-
-Default settings should work for this though you may need to tweak them depending on the number of accounts.
-
-There are also mitigations (`priority.min_players`, `seeded_player_variability`, and `perpetual_mode` random method) to
-prevent every account from jumping
-to the next server all at the same time. These options will need to be tweaked/staggered for each instance for many
-instances.
-
-Note: `min_players` value of 1 is nearly the same as 0 since the player count will be including yourself.
-Requires 1 person in order to join at first but if they leave, the seeding account will not move on.
-
+This tool is meant for UTC clan members who want a low-maintenance way to help seed the UTC Hell Let Loose server during approved times.
